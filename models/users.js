@@ -35,6 +35,9 @@ module.exports = (sequelize, DataType) => {
         associate: models => {
           Users.hasMany(models.Tasks);
         }
+      },
+      isPassword: (encodedPassword, password) => {
+        return bcrypt.compareSync(password, encodedPassword);
       }
     }
   );
