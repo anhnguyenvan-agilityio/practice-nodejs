@@ -4,11 +4,11 @@ const Schema = mongoose.Schema;
 
 const UserModel = new Schema(
   {
-    fullName: {
+    email: {
       type: String,
       required: true
     },
-    userName: {
+    username: {
       type: String,
       required: true
     },
@@ -16,10 +16,10 @@ const UserModel = new Schema(
     cash: { type: Number, default: 0 }
   },
   {
-    collection: "User"
+    collection: "user"
   }
 );
 
-let User = mongoose.model("User", UserModel);
+let User = mongoose.model("user", UserModel);
 
 module.exports = User;
