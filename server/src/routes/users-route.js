@@ -3,7 +3,11 @@
 const express = require("express");
 const router = express.Router();
 
-const { addUserController } = require('../controllers/user-controller');
+const {
+  addUserController,
+  getUsersController,
+  getUserByIdController
+} = require('../controllers/user-controller');
 
 router
   .route("/")
@@ -11,11 +15,15 @@ router
     // Check auth
     next();
   })
-  .get((req, res) => {
-    res.json({
-      success: true
-    });
-  })
+  .get(getUsersController)
   .post(addUserController);
+
+router
+  .route('/:id')
+  .all((req, res, next) => {
+    // Check auth
+    next();
+  })
+  .get(getUserByIdController);
 
 module.exports = router;

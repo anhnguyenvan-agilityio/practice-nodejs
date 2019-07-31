@@ -1,20 +1,79 @@
+const Joi = require('@hapi/joi');
 const {
-  addUserService
+  addUserService,
+  getUsersService,
+  getUserByIdService
 } = require('../services/users-service');
 
 const addUserController = async (req, res) => {
   try {
-    const user = await addUserService({
-      email: req.body.email,
-      username: req.body.username,
-      password: req.body.password,
-      cash: req.body.cash
+    const {
+      email,
+      username,
+      password,
+      cash
+    } = req.body;
+    // Validate input
+    const schema = Joi.object().keys({
+      username: Joi.string().alphanum().min(3).max(30).required(),
+      password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
+      email: Joi.string().email({ minDomainSegments: 2 }).required(),
+      cash: Joi.number().required()
+    });
+    const rsValid = schema.validate({
+      email,
+      username,
+      password,
+      cash
+    });
+    if (rsValid.error === null) {
+      const user = await addUserService({
+        email,
+        username,
+        password,
+        cash
+      })
+      if (user) {
+        return res.json({
+          user
+        })
+      }
+      return res.status(500).json({
+        msg: "User exist"
+      })
+    }
+    res.status(500).json({
+      msg: rsValid.error.details
     })
+
+  } catch (err) {
+    res.status(500).json({
+      msg: err
+    })
+  }
+}
+
+const getUsersController = async (req, res) => {
+  try {
+    const users = await getUsersService();
     return res.json({
-      user
+      users
     })
   } catch (err) {
-    console.log('err controller' + err);
+    res.status(500).json({
+      msg: err
+    })
+  }
+}
+
+const getUserByIdController = async (req, res) => {
+  try {
+    const { id } = req.params || '';
+    const user = await getUserByIdService(id);
+    return res.json({
+      user
+    });
+  } catch (err) {
     res.status(500).json({
       msg: err
     })
@@ -22,5 +81,7 @@ const addUserController = async (req, res) => {
 }
 
 module.exports = {
-  addUserController
+  addUserController,
+  getUsersController,
+  getUserByIdController
 }
