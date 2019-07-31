@@ -49,17 +49,18 @@ const getUserById = async (id) => {
 
 const updateCash = async (id, cash) => {
   try {
-    const user = await UserModel.findByIdAndUpdate(id, {
+    const rs = await UserModel.findByIdAndUpdate(id, {
       $inc: { cash }
     });
-    if (user) {
-      return {
-        ...user,
-        cash: user.cash + cash
-      };
-    } else {
-      return null;
-    }
+    return rs;
+    // if (user) {
+    //   return {
+    //     ...user,
+    //     cash: user.cash + cash
+    //   };
+    // } else {
+    //   return null;
+    // }
   } catch (err) {
     throw err;
   }

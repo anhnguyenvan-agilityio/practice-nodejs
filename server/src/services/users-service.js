@@ -22,7 +22,7 @@ const chargeUserService = async (userId, cash) => {
       }
       return null;
     }
-    return null
+    return null;
   } catch (err) {
     console.log(err);
     throw err;
