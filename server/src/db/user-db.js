@@ -1,30 +1,18 @@
 const UserModel = require('../models/user-model');
 
-const addUser = async (user) => {
+const addUser = (user) => {
   const { email, username, password, cash } = user;
-  try {
-    const user = new UserModel({
-      email,
-      username,
-      password,
-      cash
-    });
-    const rs = await user.save();
-    return rs;
-  } catch (err) {
-    console.log(err)
-    throw err;
-  }
+  const newUser = new UserModel({
+    email,
+    username,
+    password,
+    cash
+  });
+  return newUser.save();
 }
 
-const getUsers = async () => {
-  try {
-    const rs = await UserModel.find();
-    return rs;
-  } catch (err) {
-    console.log(err)
-    throw err;
-  }
+const getUsers = () => {
+  return UserModel.find();
 }
 
 const checkExistUser = async (email) => {
@@ -37,33 +25,14 @@ const checkExistUser = async (email) => {
   }
 }
 
-const getUserById = async (id) => {
-  try {
-    const rs = await UserModel.findById(id);
-    return rs;
-  } catch (err) {
-    console.log(err)
-    throw err;
-  }
+const getUserById = (id) => {
+  return UserModel.findById(id)
 }
 
-const updateCash = async (id, cash) => {
-  try {
-    const rs = await UserModel.findByIdAndUpdate(id, {
-      $inc: { cash }
-    });
-    return rs;
-    // if (user) {
-    //   return {
-    //     ...user,
-    //     cash: user.cash + cash
-    //   };
-    // } else {
-    //   return null;
-    // }
-  } catch (err) {
-    throw err;
-  }
+const updateCash = (id, cash) => {
+  return UserModel.findByIdAndUpdate(id, {
+    $inc: { cash }
+  });
 };
 
 
