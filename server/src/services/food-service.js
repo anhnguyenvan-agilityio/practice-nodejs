@@ -1,5 +1,8 @@
 const { getFoods, getFoodById, addOrder } = require("../db/food-db");
-const { getUserByIdService } = require("../services/users-service");
+const {
+  getUserByIdService,
+  chargeUserService
+} = require("../services/users-service");
 
 const getFoodsService = async () => {
   try {
@@ -25,8 +28,22 @@ const addOrderService = async order => {
     // Get user from id to get cash
     const user = await getUserByIdService(userId);
     if (user) {
-      const orderAdded = await addOrder(order);
-      return orderAdded;
+      // Get food from id
+      const food = await getFoodByIdService(foodId);
+      if (food) {
+        // Check user have enough cash
+        const userCash = user.cash;
+        const cashPay = price * quantity;
+        if (userCash >= cashPay) {
+          // Pay for user
+          await chargeUserService(userId, cashPay * -1);
+          // Add order history
+          const orderAdded = await addOrder(order);
+          return orderAdded;
+        }
+        throw { message: "Not enough money" };
+      }
+      throw { message: "Food not exist" };
     }
     throw { message: "User not exist" };
   } catch (err) {
