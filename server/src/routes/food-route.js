@@ -4,11 +4,10 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  addUserController,
-  getUsersController,
-  getUserByIdController,
-  chargeUserController
-} = require("../controllers/user-controller");
+  getFoodsController,
+  getFoodByIdController,
+  addOrderController
+} = require("../controllers/food-controller");
 
 router
   .route("/")
@@ -16,8 +15,7 @@ router
     // Check auth
     next();
   })
-  .get(getUsersController)
-  .post(addUserController);
+  .get(getFoodsController);
 
 router
   .route("/:id")
@@ -25,14 +23,14 @@ router
     // Check auth
     next();
   })
-  .get(getUserByIdController);
+  .get(getFoodByIdController);
 
 router
-  .route("/recharge")
+  .route("/orders")
   .all((req, res, next) => {
     // Check auth
     next();
   })
-  .post(chargeUserController);
+  .post(addOrderController);
 
 module.exports = router;
