@@ -85,7 +85,7 @@ const chargeUserController = async (req, res) => {
     const { id, cash } = req.body;
     const schema = Joi.object().keys({
       id: Joi.string().required(),
-      cash: Joi.number().required()
+      cash: Joi.number().greater(0).required()
     });
     const rsValid = schema.validate({
       id,

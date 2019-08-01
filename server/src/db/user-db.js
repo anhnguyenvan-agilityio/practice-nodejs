@@ -12,7 +12,7 @@ const addUser = (user) => {
 }
 
 const getUsers = () => {
-  return UserModel.find();
+  return UserModel.find().select('username _id email cash');
 }
 
 const checkExistUser = async (email) => {
@@ -26,13 +26,13 @@ const checkExistUser = async (email) => {
 }
 
 const getUserById = (id) => {
-  return UserModel.findById(id)
+  return UserModel.findById(id).select('username _id email cash')
 }
 
 const updateCash = (id, cash) => {
   return UserModel.findByIdAndUpdate(id, {
     $inc: { cash }
-  }, { new: true });
+  }, { new: true }).select('username _id email cash');
 };
 
 
