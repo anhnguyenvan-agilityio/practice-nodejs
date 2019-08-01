@@ -2,7 +2,8 @@ const Joi = require('@hapi/joi');
 const {
   addUserService,
   getUsersService,
-  getUserByIdService
+  getUserByIdService,
+  chargeUserService
 } = require('../services/users-service');
 
 const addUserController = async (req, res) => {
@@ -45,7 +46,6 @@ const addUserController = async (req, res) => {
     res.status(500).json({
       msg: rsValid.error.details
     })
-
   } catch (err) {
     res.status(500).json({
       msg: err
@@ -68,7 +68,7 @@ const getUsersController = async (req, res) => {
 
 const getUserByIdController = async (req, res) => {
   try {
-    const { id } = req.params || '';
+    const { id } = req.params;
     const user = await getUserByIdService(id);
     return res.json({
       user
@@ -80,8 +80,36 @@ const getUserByIdController = async (req, res) => {
   }
 }
 
+const chargeUserController = async (req, res) => {
+  try {
+    const { id, cash } = req.body;
+    const schema = Joi.object().keys({
+      id: Joi.string().required(),
+      cash: Joi.number().required()
+    });
+    const rsValid = schema.validate({
+      id,
+      cash
+    });
+    if (rsValid.error === null) {
+      const user = await chargeUserService(id, cash);
+      return res.json({
+        user
+      })
+    }
+    res.status(500).json({
+      msg: rsValid.error.details
+    })
+  } catch (err) {
+    res.status(500).json({
+      msg: err
+    })
+  }
+}
+
 module.exports = {
   addUserController,
   getUsersController,
-  getUserByIdController
+  getUserByIdController,
+  chargeUserController
 }

@@ -8,8 +8,8 @@ const chargeUserService = async (userId, cash) => {
     if (user) {
       const username = user.username || '';
       // Update cash for user
-      const updateCash = await updateCash(userId, cash);
-      if (updateCash) {
+      const cashUpdate = await updateCash(userId, cash);
+      if (cashUpdate) {
         // Insert history recharge user
         await addRechargeHistory({
           userId,
@@ -17,7 +17,7 @@ const chargeUserService = async (userId, cash) => {
           cash
         });
         return {
-          user: updateCash
+          user: cashUpdate
         }
       }
       return null;

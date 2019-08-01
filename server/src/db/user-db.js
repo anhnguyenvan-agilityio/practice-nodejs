@@ -32,7 +32,7 @@ const getUserById = (id) => {
 const updateCash = (id, cash) => {
   return UserModel.findByIdAndUpdate(id, {
     $inc: { cash }
-  });
+  }, { new: true });
 };
 
 

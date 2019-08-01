@@ -6,7 +6,8 @@ const router = express.Router();
 const {
   addUserController,
   getUsersController,
-  getUserByIdController
+  getUserByIdController,
+  chargeUserController
 } = require('../controllers/user-controller');
 
 router
@@ -26,4 +27,11 @@ router
   })
   .get(getUserByIdController);
 
+router
+  .route('/recharge')
+  .all((req, res, next) => {
+    // Check auth
+    next();
+  })
+  .post(chargeUserController)
 module.exports = router;
