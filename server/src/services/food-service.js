@@ -38,8 +38,7 @@ const addOrderService = async order => {
           // Pay for user
           await chargeUserService(userId, cashPay * -1);
           // Add order history
-          const orderAdded = await addOrder(order);
-          return orderAdded;
+          return await addOrder(order);
         }
         throw { message: "Not enough money" };
       }
