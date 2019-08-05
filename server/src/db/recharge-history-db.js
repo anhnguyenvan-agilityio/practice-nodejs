@@ -5,11 +5,11 @@ const addRechargeHistory = (rechargeHistory) => {
   const newRechargeHistory = new RechargeHistoryModel({
     userId,
     username,
-    cash
+    cash,
   });
   return newRechargeHistory.save();
-}
+};
 
 module.exports = {
-  addRechargeHistory
-}
+  addRechargeHistory,
+};

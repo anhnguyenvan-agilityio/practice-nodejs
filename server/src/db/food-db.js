@@ -1,21 +1,19 @@
-const FoodModel = require("../models/food-model");
-const OrderModel = require("../models/order-model");
+const FoodModel = require('../models/food-model');
+const OrderModel = require('../models/order-model');
 
-const getFoods = () => {
-  return FoodModel.find();
-};
+const getFoods = () => FoodModel.find();
 
-const getFoodById = id => {
-  return FoodModel.findById(id);
-};
+const getFoodById = id => FoodModel.findById(id);
 
-const addOrder = order => {
-  const { userId, foodId, price, quantity } = order;
+const addOrder = (order) => {
+  const {
+    userId, foodId, price, quantity,
+  } = order;
   const newOrder = new OrderModel({
     userId,
     foodId,
     price,
-    quantity
+    quantity,
   });
   return newOrder.save();
 };
@@ -23,5 +21,5 @@ const addOrder = order => {
 module.exports = {
   getFoods,
   getFoodById,
-  addOrder
+  addOrder,
 };

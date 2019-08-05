@@ -1,19 +1,19 @@
-const Joi = require("@hapi/joi");
+const Joi = require('@hapi/joi');
 const {
   getFoodsService,
   getFoodByIdService,
-  addOrderService
-} = require("../services/food-service");
+  addOrderService,
+} = require('../services/food-service');
 
 const getFoodsController = async (req, res) => {
   try {
     const foods = await getFoodsService();
     return res.json({
-      foods
+      foods,
     });
   } catch (err) {
-    res.status(500).json({
-      msg: err
+    return res.status(500).json({
+      msg: err,
     });
   }
 };
@@ -23,48 +23,50 @@ const getFoodByIdController = async (req, res) => {
     const { id } = req.params;
     const food = await getFoodByIdService(id);
     return res.json({
-      food
+      food,
     });
   } catch (err) {
-    res.status(500).json({
-      msg: err
+    return res.status(500).json({
+      msg: err,
     });
   }
 };
 
 const addOrderController = async (req, res) => {
   try {
-    const { userId, foodId, price, quantity } = req.body;
+    const {
+      userId, foodId, price, quantity,
+    } = req.body;
     // Validate input
     const schema = Joi.object().keys({
       userId: Joi.string().required(),
       foodId: Joi.string().required(),
       price: Joi.number().required(),
-      quantity: Joi.number().required()
+      quantity: Joi.number().required(),
     });
     const rsValid = schema.validate({
       userId,
       foodId,
       price,
-      quantity
+      quantity,
     });
     if (rsValid.error === null) {
       const order = await addOrderService({
         userId,
         foodId,
         price,
-        quantity
+        quantity,
       });
       return res.json({
-        order
+        order,
       });
     }
     return res.status(500).json({
-      msg: rsValid.error.details
+      msg: rsValid.error.details,
     });
   } catch (err) {
-    res.status(500).json({
-      msg: err
+    return res.status(500).json({
+      msg: err,
     });
   }
 };
@@ -72,5 +74,5 @@ const addOrderController = async (req, res) => {
 module.exports = {
   getFoodsController,
   getFoodByIdController,
-  addOrderController
+  addOrderController,
 };

@@ -5,7 +5,9 @@
   "main": "app.js",
   "scripts": {
     "precommit": "yarn lint",
-    "start": "nodemon --exec node app.js"
+    "start": "nodemon --exec node app.js",
+    "validate": "yarn lint && yarn test",
+    "lint": "eslint ./src/ --ignore-path .gitignore --ignore-pattern internals/scripts"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +21,7 @@
   },
   "devDependencies": {
     "eslint": "^6.1.0",
-    "eslint-config-airbnb-base": "^13.2.0"
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-plugin-import": "^2.18.2"
   }
 }

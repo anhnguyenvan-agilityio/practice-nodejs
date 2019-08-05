@@ -1,23 +1,23 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 const FoodModel = new Schema(
   {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     price: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   {
-    collection: "food"
-  }
+    collection: 'food',
+  },
 );
 
-const Food = mongoose.model("food", FoodModel);
+const Food = mongoose.model('food', FoodModel);
 
 module.exports = Food;

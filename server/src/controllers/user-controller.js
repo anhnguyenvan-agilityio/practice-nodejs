@@ -1,14 +1,16 @@
-const Joi = require("@hapi/joi");
+const Joi = require('@hapi/joi');
 const {
   addUserService,
   getUsersService,
   getUserByIdService,
-  chargeUserService
-} = require("../services/users-service");
+  chargeUserService,
+} = require('../services/users-service');
 
 const addUserController = async (req, res) => {
   try {
-    const { email, username, password, cash } = req.body;
+    const {
+      email, username, password, cash,
+    } = req.body;
     // Validate input
     const schema = Joi.object().keys({
       username: Joi.string()
@@ -22,31 +24,31 @@ const addUserController = async (req, res) => {
       email: Joi.string()
         .email({ minDomainSegments: 2 })
         .required(),
-      cash: Joi.number().required()
+      cash: Joi.number().required(),
     });
     const rsValid = schema.validate({
       email,
       username,
       password,
-      cash
+      cash,
     });
     if (rsValid.error === null) {
       const user = await addUserService({
         email,
         username,
         password,
-        cash
+        cash,
       });
       return res.json({
-        user
+        user,
       });
     }
-    res.status(500).json({
-      msg: rsValid.error.details
+    return res.status(500).json({
+      msg: rsValid.error.details,
     });
   } catch (err) {
-    res.status(500).json({
-      msg: err
+    return res.status(500).json({
+      msg: err,
     });
   }
 };
@@ -55,11 +57,11 @@ const getUsersController = async (req, res) => {
   try {
     const users = await getUsersService();
     return res.json({
-      users
+      users,
     });
   } catch (err) {
-    res.status(500).json({
-      msg: err
+    return res.status(500).json({
+      msg: err,
     });
   }
 };
@@ -69,11 +71,11 @@ const getUserByIdController = async (req, res) => {
     const { id } = req.params;
     const user = await getUserByIdService(id);
     return res.json({
-      user
+      user,
     });
   } catch (err) {
-    res.status(500).json({
-      msg: err
+    return res.status(500).json({
+      msg: err,
     });
   }
 };
@@ -85,24 +87,24 @@ const chargeUserController = async (req, res) => {
       id: Joi.string().required(),
       cash: Joi.number()
         .greater(0)
-        .required()
+        .required(),
     });
     const rsValid = schema.validate({
       id,
-      cash
+      cash,
     });
     if (rsValid.error === null) {
       const user = await chargeUserService(id, cash);
       return res.json({
-        user
+        user,
       });
     }
-    res.status(500).json({
-      msg: rsValid.error.details
+    return res.status(500).json({
+      msg: rsValid.error.details,
     });
   } catch (err) {
-    res.status(500).json({
-      msg: err
+    return res.status(500).json({
+      msg: err,
     });
   }
 };
@@ -111,5 +113,5 @@ module.exports = {
   addUserController,
   getUsersController,
   getUserByIdController,
-  chargeUserController
+  chargeUserController,
 };

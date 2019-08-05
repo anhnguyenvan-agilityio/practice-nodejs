@@ -1,16 +1,17 @@
-"use strict";
 
-const express = require("express");
+
+const express = require('express');
+
 const router = express.Router();
 
 const {
   getFoodsController,
   getFoodByIdController,
-  addOrderController
-} = require("../controllers/food-controller");
+  addOrderController,
+} = require('../controllers/food-controller');
 
 router
-  .route("/")
+  .route('/')
   .all((req, res, next) => {
     // Check auth
     next();
@@ -18,7 +19,7 @@ router
   .get(getFoodsController);
 
 router
-  .route("/:id")
+  .route('/:id')
   .all((req, res, next) => {
     // Check auth
     next();
@@ -26,7 +27,7 @@ router
   .get(getFoodByIdController);
 
 router
-  .route("/orders")
+  .route('/orders')
   .all((req, res, next) => {
     // Check auth
     next();

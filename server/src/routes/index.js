@@ -1,12 +1,13 @@
-"use strict";
 
-const express = require("express");
+
+const express = require('express');
+
 const router = express.Router();
 
-const userRoute = require("./users-route");
-const foodRoute = require("./food-route");
+const userRoute = require('./users-route');
+const foodRoute = require('./food-route');
 
-router.use("/users", userRoute);
-router.use("/foods", foodRoute);
+router.use('/users', userRoute);
+router.use('/foods', foodRoute);
 
 module.exports = router;

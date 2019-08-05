@@ -1,17 +1,18 @@
-"use strict";
 
-const express = require("express");
+
+const express = require('express');
+
 const router = express.Router();
 
 const {
   addUserController,
   getUsersController,
   getUserByIdController,
-  chargeUserController
-} = require("../controllers/user-controller");
+  chargeUserController,
+} = require('../controllers/user-controller');
 
 router
-  .route("/")
+  .route('/')
   .all((req, res, next) => {
     // Check auth
     next();
@@ -20,7 +21,7 @@ router
   .post(addUserController);
 
 router
-  .route("/:id")
+  .route('/:id')
   .all((req, res, next) => {
     // Check auth
     next();
@@ -28,7 +29,7 @@ router
   .get(getUserByIdController);
 
 router
-  .route("/recharge")
+  .route('/recharge')
   .all((req, res, next) => {
     // Check auth
     next();

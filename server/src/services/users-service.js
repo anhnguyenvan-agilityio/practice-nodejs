@@ -3,16 +3,16 @@ const {
   getUsers,
   getUserById,
   checkExistUser,
-  updateCash
-} = require("../db/user-db");
-const { addRechargeHistory } = require("../db/recharge-history-db");
+  updateCash,
+} = require('../db/user-db');
+const { addRechargeHistory } = require('../db/recharge-history-db');
 
 const chargeUserService = async (userId, cash) => {
   try {
     // Get info user by id
     const user = await getUserByIdService(userId);
     if (user) {
-      const username = user.username || "";
+      const username = user.username || '';
       // Update cash for user
       const cashUpdate = await updateCash(userId, cash);
       if (cashUpdate) {
@@ -20,10 +20,10 @@ const chargeUserService = async (userId, cash) => {
         await addRechargeHistory({
           userId,
           username,
-          cash
+          cash,
         });
         return {
-          user: cashUpdate
+          user: cashUpdate,
         };
       }
       return null;
@@ -35,12 +35,12 @@ const chargeUserService = async (userId, cash) => {
   }
 };
 
-const addUserService = async user => {
+const addUserService = async (user) => {
   try {
     // Check User exist
     const existUser = await checkExistUser(user.email);
     if (existUser) {
-      throw { message: "User exist" };
+      throw new Error({ message: 'User exist' });
     }
     // Add User to db
     const rs = await addUser(user);
@@ -61,7 +61,7 @@ const getUsersService = async () => {
   }
 };
 
-const getUserByIdService = async id => {
+const getUserByIdService = async (id) => {
   try {
     const rs = await getUserById(id);
     return rs;
@@ -75,5 +75,5 @@ module.exports = {
   addUserService,
   getUsersService,
   getUserByIdService,
-  chargeUserService
+  chargeUserService,
 };

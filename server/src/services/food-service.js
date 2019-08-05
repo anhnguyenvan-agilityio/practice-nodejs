@@ -1,8 +1,8 @@
-const { getFoods, getFoodById, addOrder } = require("../db/food-db");
+const { getFoods, getFoodById, addOrder } = require('../db/food-db');
 const {
   getUserByIdService,
-  chargeUserService
-} = require("../services/users-service");
+  chargeUserService,
+} = require('../services/users-service');
 
 const getFoodsService = async () => {
   try {
@@ -13,7 +13,7 @@ const getFoodsService = async () => {
   }
 };
 
-const getFoodByIdService = async id => {
+const getFoodByIdService = async (id) => {
   try {
     const food = await getFoodById(id);
     return food;
@@ -22,9 +22,11 @@ const getFoodByIdService = async id => {
   }
 };
 
-const addOrderService = async order => {
+const addOrderService = async (order) => {
   try {
-    const { userId, foodId, price, quantity } = order;
+    const {
+      userId, foodId, price, quantity,
+    } = order;
     // Get user from id to get cash
     const user = await getUserByIdService(userId);
     if (user) {
@@ -40,11 +42,11 @@ const addOrderService = async order => {
           // Add order history
           return await addOrder(order);
         }
-        throw { message: "Not enough money" };
+        throw new Error({ message: 'Not enough money' });
       }
-      throw { message: "Food not exist" };
+      throw new Error({ message: 'Food not exist' });
     }
-    throw { message: "User not exist" };
+    throw new Error({ message: 'User not exist' });
   } catch (err) {
     throw err;
   }
@@ -53,5 +55,5 @@ const addOrderService = async order => {
 module.exports = {
   getFoodsService,
   getFoodByIdService,
-  addOrderService
+  addOrderService,
 };
