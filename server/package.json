@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "precommit": "yarn lint",
     "start": "nodemon --exec node app.js"
   },
   "keywords": [],
