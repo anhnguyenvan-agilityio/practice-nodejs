@@ -8,7 +8,7 @@
     "yarn": "*"
   },
   "scripts": {
-    "precommit": "yarn lint",
+    "precommit": "eslint src",
     "start": "nodemon --exec node app.js",
     "validate": "yarn lint && yarn test",
     "lint": "eslint ./src/ --ignore-path .gitignore --ignore-pattern internals/scripts"
