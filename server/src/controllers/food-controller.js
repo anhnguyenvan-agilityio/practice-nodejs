@@ -3,7 +3,7 @@ const {
   getFoodsService,
   getFoodByIdService,
   addOrderService,
-} = require("../services/food-service");
+} = require('../services/food-service');
 
 const getFoodsController = async (req, res) => {
   try {
