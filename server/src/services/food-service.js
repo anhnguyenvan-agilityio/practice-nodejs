@@ -9,7 +9,7 @@ const getFoodsService = async () => {
     const foods = await getFoods();
     return foods;
   } catch (err) {
-    throw err;
+    throw new Error(err);
   }
 };
 
@@ -18,7 +18,7 @@ const getFoodByIdService = async (id) => {
     const food = await getFoodById(id);
     return food;
   } catch (err) {
-    throw err;
+    throw new Error(err);
   }
 };
 
@@ -48,7 +48,7 @@ const addOrderService = async (order) => {
     }
     throw new Error({ message: 'User not exist' });
   } catch (err) {
-    throw err;
+    throw new Error(err);
   }
 };
 
