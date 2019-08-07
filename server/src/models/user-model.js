@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
+const httpStatus = require('http-status');
+const APIError = require('../utils/api-error');
 
-const { Schema } = mongoose;
-
-const UserModel = new Schema(
+const userSchema = new mongoose.Schema(
   {
     email: {
       type: String,
@@ -20,6 +20,32 @@ const UserModel = new Schema(
   },
 );
 
-const User = mongoose.model('user', UserModel);
+userSchema.statics.getUsers = async function () {
+  try {
+    return await this.find().select('username _id email cash');
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
 
-module.exports = User;
+userSchema.statics.getUserById = async function (id) {
+  try {
+    let user;
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      user = await this.findById(id).select('username _id email cash');
+    }
+    if (user) {
+      return user;
+    }
+    throw new APIError({
+      message: 'User does not exist',
+      status: httpStatus.NOT_FOUND,
+    });
+  } catch (err) {
+    console.log('usermodel-->', err);
+    throw err;
+  }
+};
+
+module.exports = mongoose.model('user', userSchema);

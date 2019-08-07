@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const {
   addUserService,
   getUsersService,
@@ -66,7 +66,7 @@ const getUsersController = async (req, res) => {
   }
 };
 
-const getUserByIdController = async (req, res) => {
+const getUserByIdController = async (req, res, next) => {
   try {
     const { id } = req.params;
     const user = await getUserByIdService(id);
@@ -74,9 +74,7 @@ const getUserByIdController = async (req, res) => {
       user,
     });
   } catch (err) {
-    return res.status(500).json({
-      msg: err,
-    });
+    next(err);
   }
 };
 

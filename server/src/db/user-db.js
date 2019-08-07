@@ -13,8 +13,6 @@ const addUser = (user) => {
   return newUser.save();
 };
 
-const getUsers = () => UserModel.find().select('username _id email cash');
-
 const checkExistUser = async (email) => {
   try {
     const users = await UserModel.find({ email });
@@ -25,17 +23,12 @@ const checkExistUser = async (email) => {
   }
 };
 
-const getUserById = id => UserModel.findById(id).select('username _id email cash');
-
 const updateCash = (id, cash) => UserModel.findByIdAndUpdate(id, {
   $inc: { cash },
 }, { new: true }).select('username _id email cash');
 
-
 module.exports = {
   addUser,
-  getUsers,
-  getUserById,
   checkExistUser,
   updateCash,
 };

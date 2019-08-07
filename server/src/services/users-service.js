@@ -1,11 +1,10 @@
 const {
   addUser,
-  getUsers,
-  getUserById,
   checkExistUser,
   updateCash,
 } = require('../db/user-db');
 const { addRechargeHistory } = require('../db/recharge-history-db');
+const User = require('../models/user-model');
 
 const chargeUserService = async (userId, cash) => {
   try {
@@ -53,7 +52,7 @@ const addUserService = async (user) => {
 
 const getUsersService = async () => {
   try {
-    const rs = await getUsers();
+    const rs = await User.getUsers();
     return rs;
   } catch (err) {
     console.log(err);
@@ -63,10 +62,10 @@ const getUsersService = async () => {
 
 const getUserByIdService = async (id) => {
   try {
-    const rs = await getUserById(id);
+    const rs = await User.getUserById(id);
     return rs;
   } catch (err) {
-    console.log(err);
+    console.log('userservice-->', err);
     throw err;
   }
 };
