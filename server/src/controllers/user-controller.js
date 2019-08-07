@@ -45,10 +45,10 @@ const addUserController = async (req, res, next) => {
         user,
       });
     }
-    next(new APIError({
-      message: 'error roi ban eiii',
-      status: httpStatus.NO_CONTENT
-    }));
+    throw new APIError({
+      message: rsValid.error.details[0].message,
+      status: httpStatus.CONFLICT,
+    });
   } catch (err) {
     next(err);
   }
@@ -73,6 +73,7 @@ const getUserByIdController = async (req, res, next) => {
       user,
     });
   } catch (err) {
+    console.log('getUserByIdService error');
     next(err);
   }
 };

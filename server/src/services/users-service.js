@@ -1,9 +1,8 @@
-const {
-  // checkExistUser,
-  updateCash,
-} = require('../db/user-db');
 const { addRechargeHistory } = require('../db/recharge-history-db');
 const User = require('../models/user-model');
+const APIError = require('../utils/api-error');
+const httpStatus = require('http-status');
+
 
 const chargeUserService = async (userId, cash) => {
   try {
@@ -12,7 +11,7 @@ const chargeUserService = async (userId, cash) => {
     if (user) {
       const username = user.username || '';
       // Update cash for user
-      const cashUpdate = await updateCash(userId, cash);
+      const cashUpdate = await User.updateCash(userId, cash);
       if (cashUpdate) {
         // Insert history recharge user
         await addRechargeHistory({
@@ -36,15 +35,18 @@ const chargeUserService = async (userId, cash) => {
 const addUserService = async (user) => {
   try {
     // Check User exist
-    // const existUser = await checkExistUser(user.email);
-    // if (existUser) {
-    //   throw new Error({ message: 'User exist' });
-    // }
+    const existUser = await User.checkExistUser(user.email);
+    if (existUser) {
+      throw new APIError({
+        message: 'User exist',
+        status: httpStatus.CONFLICT
+      });
+    }
     // Add User to db
     const rs = await User.addUser(user);
     return rs;
   } catch (err) {
-    console.log('=====------', err);
+    console.log('addUserService error', err);
     throw err;
   }
 };

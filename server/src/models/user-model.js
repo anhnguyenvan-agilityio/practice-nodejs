@@ -20,13 +20,8 @@ const userSchema = new mongoose.Schema(
   },
 );
 
-userSchema.statics.getUsers = async function () {
-  try {
-    return await this.find().select('username _id email cash');
-  } catch (err) {
-    console.log(err);
-    throw err;
-  }
+userSchema.statics.getUsers = function () {
+  return this.find().select('username _id email cash');
 };
 
 userSchema.statics.getUserById = async function (id) {
@@ -43,7 +38,7 @@ userSchema.statics.getUserById = async function (id) {
       status: httpStatus.NOT_FOUND,
     });
   } catch (err) {
-    console.log('usermodel-->', err);
+    console.log('getUserById err: ', err);
     throw err;
   }
 };
@@ -59,6 +54,22 @@ userSchema.statics.addUser = async function (user) {
     cash,
   });
   return newUser.save();
+};
+
+userSchema.statics.checkExistUser = async function (email) {
+  try {
+    const users = await this.find({ email });
+    return !!users.length;
+  } catch (err) {
+    console.log('checkExistUser err:', err);
+    throw err;
+  }
+};
+
+userSchema.statics.updateCash = function (id, cash) {
+  return this.findByIdAndUpdate(id, {
+    $inc: { cash },
+  }, { new: true }).select('username _id email cash');
 };
 
 module.exports = mongoose.model('user', userSchema);
