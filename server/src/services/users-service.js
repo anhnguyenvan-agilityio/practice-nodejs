@@ -1,6 +1,5 @@
 const {
-  addUser,
-  checkExistUser,
+  // checkExistUser,
   updateCash,
 } = require('../db/user-db');
 const { addRechargeHistory } = require('../db/recharge-history-db');
@@ -37,15 +36,15 @@ const chargeUserService = async (userId, cash) => {
 const addUserService = async (user) => {
   try {
     // Check User exist
-    const existUser = await checkExistUser(user.email);
-    if (existUser) {
-      throw new Error({ message: 'User exist' });
-    }
+    // const existUser = await checkExistUser(user.email);
+    // if (existUser) {
+    //   throw new Error({ message: 'User exist' });
+    // }
     // Add User to db
-    const rs = await addUser(user);
+    const rs = await User.addUser(user);
     return rs;
   } catch (err) {
-    console.log(err);
+    console.log('=====------', err);
     throw err;
   }
 };

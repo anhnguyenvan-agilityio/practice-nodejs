@@ -48,4 +48,17 @@ userSchema.statics.getUserById = async function (id) {
   }
 };
 
+userSchema.statics.addUser = async function (user) {
+  const {
+    email, username, password, cash,
+  } = user;
+  const newUser = new this({
+    email,
+    username,
+    password,
+    cash,
+  });
+  return newUser.save();
+};
+
 module.exports = mongoose.model('user', userSchema);

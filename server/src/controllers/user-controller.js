@@ -1,3 +1,5 @@
+const APIError = require('../utils/api-error');
+const httpStatus = require('http-status');
 const Joi = require('joi');
 const {
   addUserService,
@@ -6,7 +8,7 @@ const {
   chargeUserService,
 } = require('../services/users-service');
 
-const addUserController = async (req, res) => {
+const addUserController = async (req, res, next) => {
   try {
     const {
       email, username, password, cash,
@@ -43,26 +45,23 @@ const addUserController = async (req, res) => {
         user,
       });
     }
-    return res.status(500).json({
-      msg: rsValid.error.details,
-    });
+    next(new APIError({
+      message: 'error roi ban eiii',
+      status: httpStatus.NO_CONTENT
+    }));
   } catch (err) {
-    return res.status(500).json({
-      msg: err,
-    });
+    next(err);
   }
 };
 
-const getUsersController = async (req, res) => {
+const getUsersController = async (req, res, next) => {
   try {
     const users = await getUsersService();
     return res.json({
       users,
     });
   } catch (err) {
-    return res.status(500).json({
-      msg: err,
-    });
+    next(err);
   }
 };
 

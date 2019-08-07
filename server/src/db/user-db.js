@@ -1,18 +1,5 @@
 const UserModel = require('../models/user-model');
 
-const addUser = (user) => {
-  const {
-    email, username, password, cash,
-  } = user;
-  const newUser = new UserModel({
-    email,
-    username,
-    password,
-    cash,
-  });
-  return newUser.save();
-};
-
 const checkExistUser = async (email) => {
   try {
     const users = await UserModel.find({ email });
@@ -28,7 +15,6 @@ const updateCash = (id, cash) => UserModel.findByIdAndUpdate(id, {
 }, { new: true }).select('username _id email cash');
 
 module.exports = {
-  addUser,
   checkExistUser,
   updateCash,
 };
